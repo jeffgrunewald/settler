@@ -61,31 +61,36 @@ defmodule Settler do
     Enum.reduce_while(
       stream,
       {%STL{}, %Facet{}, nil},
-      &parse_line/2
+      &parse_lines/2
     )
     |> add_bounding_box()
   end
 
-  defp parse_line(line, {stl, facet, limits}) do
-    case Parser.stl(line) do
-      {:ok, [name: [name]], _, _, _, _} ->
-        {:cont, {%{stl | name: name}, facet, limits}}
+  defp parse_lines(line, {stl, facet, limits}) do
+    line
+    |> Parser.stl()
+    |> elem(1)
+    |> handle_line({stl, facet, limits})
+  end
 
-      {:ok, [normal: coord], _, _, _, _} ->
-        {:cont, {stl, %{facet | normal: parse_coordinate(coord)}, limits}}
+  defp handle_line([name: [name]], {stl, facet, limits}) do
+    {:cont, {%{stl | name: name}, facet, limits}}
+  end
 
-      {:ok, [vertex: coord], _, _, _, _} ->
-        update_vertices(stl, facet, limits, parse_coordinate(coord))
+  defp handle_line([normal: coord], {stl, facet, limits}) do
+    {:cont, {stl, %{facet | normal: parse_coordinate(coord)}, limits}}
+  end
 
-      {:ok, [:eof | _], _, _, _, _} ->
-        {:halt, {stl, facet, limits}}
+  defp handle_line([vertex: coord], {stl, facet, limits}) do
+    update_vertices(stl, facet, limits, parse_coordinate(coord))
+  end
 
-      {:ok, _, _, _, _, _} ->
-        {:cont, {stl, facet, limits}}
+  defp handle_line([:eof | _], {stl, facet, limits}) do
+    {:halt, {stl, facet, limits}}
+  end
 
-      {:error, [], _, _, _, _} ->
-        {:cont, {stl, facet, limits}}
-    end
+  defp handle_line(_, {stl, facet, limits}) do
+    {:cont, {stl, facet, limits}}
   end
 
   defp update_vertices(stl, %Facet{vertices: v, normal: n} = facet, limits, vertex)
