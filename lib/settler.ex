@@ -50,11 +50,15 @@ defmodule Settler do
   end
 
   defp format_output(stl, name, :text) do
-    ~s|Name: #{name}\nNumber of Triangles: #{stl.triangles}\nSurface Area: #{stl.area}\nBounding Box:#{format_bbox_text(stl.bounding_box)}|
+    ~s|Name: #{name}\nNumber of Triangles: #{stl.triangles}\nSurface Area: #{stl.area}\nBounding Box:#{
+      format_bbox_text(stl.bounding_box)
+    }|
   end
 
   defp format_output(stl, name, :json) do
-    ~s|{\"name\":\"#{name}\",\"number_of_triangles\":#{stl.triangles},\"surface_area\":#{stl.area},\"bounding_box\":[#{format_bbox_json(stl.bounding_box)}]}|
+    ~s|{\"name\":\"#{name}\",\"number_of_triangles\":#{stl.triangles},\"surface_area\":#{stl.area},\"bounding_box\":[#{
+      format_bbox_json(stl.bounding_box)
+    }]}|
   end
 
   defp build_stl(stream) do

@@ -66,6 +66,28 @@ mix escript.build
 Once Settler is compiled and the escript binary is built, it can be run in one
 of two ways:
 
+### Command Line Utility
+
+With the `./settler` binary built, simply run the binary and pass the path to
+an STL file as the single argument:
+
+`./settler path/to/file.stl`
+
+The output will default to a formatted block of text outlining the details
+analyzed from the STL file. Alternatively, you can pass an output flag to
+explicitly target a text block or a json-formatted output like so:
+
+```
+./settler --file text path/to/file.stl
+
+or
+
+./settler -o json path/to/file.stl
+```
+
+The binary supports both the short `-o` and long `--format` flags to determine
+the output of the analyzed object.
+
 ### Library or IEx Console
 
 To test the library directly from the IEx console, run the following commands

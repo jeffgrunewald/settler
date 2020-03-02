@@ -11,7 +11,7 @@ defmodule Settler.CLI do
   end
 
   defp parse_args(args) do
-    OptionParser.parse(args, [switches: [format: :string], aliases: [o: :format]])
+    OptionParser.parse(args, switches: [format: :string], aliases: [o: :format])
   end
 
   defp process_options(options) do
@@ -35,13 +35,7 @@ defmodule Settler.CLI do
 
   defp do_help() do
     IO.puts(
-      ~s(
-        Usage:
-        settler [path]
-
-        Example:
-        ./settler foo/bar.stl
-      )
+      ~s(Usage:\nsettler [-o|--format format_type] path\n\nExamples:\n./settler foo/bar.stl\n./settler -o json foo/bar.stl)
     )
 
     System.halt(0)

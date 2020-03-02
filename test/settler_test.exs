@@ -26,32 +26,32 @@ defmodule SettlerTest do
   describe "Parser" do
     test "parses simple stl" do
       assert %STL{
-              area: 1.4142135623730956,
-              bounding_box: [
-                {1.0, 1.0, 1.0},
-                {1.0, 1.0, 0.0},
-                {1.0, 0.0, 1.0},
-                {1.0, 0.0, 0.0},
-                {0.0, 1.0, 1.0},
-                {0.0, 1.0, 0.0},
-                {0.0, 0.0, 1.0},
-                {0.0, 0.0, 0.0}
-              ],
-              facets: [
-                %Facet{
-                  area: 0.7071067811865478,
-                  normal: {0.0, 0.0, 0.0},
-                  vertices: [{0.0, 0.0, 0.0}, {0.0, 1.0, 1.0}, {1.0, 1.0, 1.0}]
-                },
-                %Facet{
-                  area: 0.7071067811865478,
-                  normal: {0.0, 0.0, 0.0},
-                  vertices: [{0.0, 0.0, 0.0}, {1.0, 0.0, 0.0}, {1.0, 1.0, 1.0}]
-                }
-              ],
-              name: "simple",
-              triangles: 2
-            } == Settler.parse(@simple)
+               area: 1.4142135623730956,
+               bounding_box: [
+                 {1.0, 1.0, 1.0},
+                 {1.0, 1.0, 0.0},
+                 {1.0, 0.0, 1.0},
+                 {1.0, 0.0, 0.0},
+                 {0.0, 1.0, 1.0},
+                 {0.0, 1.0, 0.0},
+                 {0.0, 0.0, 1.0},
+                 {0.0, 0.0, 0.0}
+               ],
+               facets: [
+                 %Facet{
+                   area: 0.7071067811865478,
+                   normal: {0.0, 0.0, 0.0},
+                   vertices: [{0.0, 0.0, 0.0}, {0.0, 1.0, 1.0}, {1.0, 1.0, 1.0}]
+                 },
+                 %Facet{
+                   area: 0.7071067811865478,
+                   normal: {0.0, 0.0, 0.0},
+                   vertices: [{0.0, 0.0, 0.0}, {1.0, 0.0, 0.0}, {1.0, 1.0, 1.0}]
+                 }
+               ],
+               name: "simple",
+               triangles: 2
+             } == Settler.parse(@simple)
     end
 
     test "parses simple stl from file" do
@@ -59,15 +59,15 @@ defmodule SettlerTest do
       assert simple_stl.area == 1.4142135623730956
 
       assert simple_stl.bounding_box == [
-              {1.0, 1.0, 1.0},
-              {1.0, 1.0, 0.0},
-              {1.0, 0.0, 1.0},
-              {1.0, 0.0, 0.0},
-              {0.0, 1.0, 1.0},
-              {0.0, 1.0, 0.0},
-              {0.0, 0.0, 1.0},
-              {0.0, 0.0, 0.0}
-            ]
+               {1.0, 1.0, 1.0},
+               {1.0, 1.0, 0.0},
+               {1.0, 0.0, 1.0},
+               {1.0, 0.0, 0.0},
+               {0.0, 1.0, 1.0},
+               {0.0, 1.0, 0.0},
+               {0.0, 0.0, 1.0},
+               {0.0, 0.0, 0.0}
+             ]
 
       assert simple_stl.triangles == 2
     end
@@ -85,15 +85,15 @@ defmodule SettlerTest do
       assert moon_stl.area == 7.772634278919953
 
       assert moon_stl.bounding_box == [
-              {1.62841, 0.35, 3.0},
-              {1.62841, 0.35, 0.0},
-              {1.62841, 0.0, 3.0},
-              {1.62841, 0.0, 0.0},
-              {0.0, 0.35, 3.0},
-              {0.0, 0.35, 0.0},
-              {0.0, 0.0, 3.0},
-              {0.0, 0.0, 0.0}
-            ]
+               {1.62841, 0.35, 3.0},
+               {1.62841, 0.35, 0.0},
+               {1.62841, 0.0, 3.0},
+               {1.62841, 0.0, 0.0},
+               {0.0, 0.35, 3.0},
+               {0.0, 0.35, 0.0},
+               {0.0, 0.0, 3.0},
+               {0.0, 0.0, 0.0}
+             ]
 
       assert facet in moon_stl.facets
     end
@@ -101,23 +101,26 @@ defmodule SettlerTest do
 
   describe "Formatter" do
     setup do
-      stl = @simple_file |> Settler.parse_file
+      stl = @simple_file |> Settler.parse_file()
 
       [stl: stl]
     end
 
     test "returns a formatted text block", %{stl: stl} do
-      assert Settler.format(stl, :text) == ~s|Name: simple\nNumber of Triangles: 2\nSurface Area: 1.4142135623730956\nBounding Box:\n      {x: 1.0, y: 1.0, z: 1.0},\n      {x: 1.0, y: 1.0, z: 0.0},\n      {x: 1.0, y: 0.0, z: 1.0},\n      {x: 1.0, y: 0.0, z: 0.0},\n      {x: 0.0, y: 1.0, z: 1.0},\n      {x: 0.0, y: 1.0, z: 0.0},\n      {x: 0.0, y: 0.0, z: 1.0},\n      {x: 0.0, y: 0.0, z: 0.0}|
+      assert Settler.format(stl, :text) ==
+               ~s|Name: simple\nNumber of Triangles: 2\nSurface Area: 1.4142135623730956\nBounding Box:\n      {x: 1.0, y: 1.0, z: 1.0},\n      {x: 1.0, y: 1.0, z: 0.0},\n      {x: 1.0, y: 0.0, z: 1.0},\n      {x: 1.0, y: 0.0, z: 0.0},\n      {x: 0.0, y: 1.0, z: 1.0},\n      {x: 0.0, y: 1.0, z: 0.0},\n      {x: 0.0, y: 0.0, z: 1.0},\n      {x: 0.0, y: 0.0, z: 0.0}|
     end
 
     test "returns a json object", %{stl: stl} do
-      assert Settler.format(stl, :json) == ~s|{"name":"simple","number_of_triangles":2,"surface_area":1.4142135623730956,"bounding_box":[{"x":1.0,"y":1.0,"z":1.0},{"x":1.0,"y":1.0,"z":0.0},{"x":1.0,"y":0.0,"z":1.0},{"x":1.0,"y":0.0,"z":0.0},{"x":0.0,"y":1.0,"z":1.0},{"x":0.0,"y":1.0,"z":0.0},{"x":0.0,"y":0.0,"z":1.0},{"x":0.0,"y":0.0,"z":0.0}]}|
+      assert Settler.format(stl, :json) ==
+               ~s|{"name":"simple","number_of_triangles":2,"surface_area":1.4142135623730956,"bounding_box":[{"x":1.0,"y":1.0,"z":1.0},{"x":1.0,"y":1.0,"z":0.0},{"x":1.0,"y":0.0,"z":1.0},{"x":1.0,"y":0.0,"z":0.0},{"x":0.0,"y":1.0,"z":1.0},{"x":0.0,"y":1.0,"z":0.0},{"x":0.0,"y":0.0,"z":1.0},{"x":0.0,"y":0.0,"z":0.0}]}|
     end
 
     test "returns output with name undefined if solid name not specified", %{stl: stl} do
       unnamed_stl = %{stl | name: nil}
 
-      assert Settler.format(unnamed_stl, :json) == ~s|{"name":"undefined","number_of_triangles":2,"surface_area":1.4142135623730956,"bounding_box":[{"x":1.0,"y":1.0,"z":1.0},{"x":1.0,"y":1.0,"z":0.0},{"x":1.0,"y":0.0,"z":1.0},{"x":1.0,"y":0.0,"z":0.0},{"x":0.0,"y":1.0,"z":1.0},{"x":0.0,"y":1.0,"z":0.0},{"x":0.0,"y":0.0,"z":1.0},{"x":0.0,"y":0.0,"z":0.0}]}|
+      assert Settler.format(unnamed_stl, :json) ==
+               ~s|{"name":"undefined","number_of_triangles":2,"surface_area":1.4142135623730956,"bounding_box":[{"x":1.0,"y":1.0,"z":1.0},{"x":1.0,"y":1.0,"z":0.0},{"x":1.0,"y":0.0,"z":1.0},{"x":1.0,"y":0.0,"z":0.0},{"x":0.0,"y":1.0,"z":1.0},{"x":0.0,"y":1.0,"z":0.0},{"x":0.0,"y":0.0,"z":1.0},{"x":0.0,"y":0.0,"z":0.0}]}|
     end
   end
 end

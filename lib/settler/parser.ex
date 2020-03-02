@@ -16,7 +16,7 @@ defmodule Settler.Parser do
   @float_chars [?0..?9, ?., ?e, ?E, ?-, ?+]
 
   # Defines a combinator to parse a line for three floating point
-  #numbers.
+  # numbers.
   defcombinatorp(
     :coordinate,
     duplicate(eventually(ascii_string(@float_chars, min: 1)), 3),
